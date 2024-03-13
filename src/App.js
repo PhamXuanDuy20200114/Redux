@@ -20,17 +20,6 @@ function App(props) {
     dispatch(increaseCounter()); // using useDispatch Hook
   }
 
-  const fetchAllUser = async () => {
-    const res = await axios.get("http://localhost:8080/users/all")
-    const data = res && res.data ? res.data : [];
-    console.log("Check data axios: ", data);
-  }
-
-  useEffect(() => {
-    fetchAllUser();
-
-  }, []);
-
   return (
     // <div className="App">
     //   <header className="App-header">

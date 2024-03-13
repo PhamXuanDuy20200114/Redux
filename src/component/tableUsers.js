@@ -1,22 +1,30 @@
 import { Container, Table } from "react-bootstrap";
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllUsers } from '../action/actions';
 
 const TableUsers = () => {
+    const dispatch = useDispatch();
 
-    const [users, setUsers] = useState([]);
-    const fetchAllUser = async () => {
-        let res = await axios.get("http://localhost:8080/users/all")
-        let data = res && res.data ? res.data : [];
-        setUsers(data);
-    }
+    const listUsers = useSelector(state => state.user.listUsers);
 
     const handleDeleteUser = (id) => {
 
     }
 
+    // const fetchAllUser = async () => {
+    //     try {
+    //         let res = await axios.get("http://localhost:8080/users/all")
+    //         let data = res && res.data ? res.data : [];
+    //         setListUsers(data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
     useEffect(() => {
-        fetchAllUser();
+        //fetchAllUser();
+        dispatch(fetchAllUsers());
     }, []);
 
     return (
@@ -33,7 +41,7 @@ const TableUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users && users.length > 0 && users.map((user, index) => {
+                        {listUsers && listUsers.length > 0 && listUsers.map((user, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
