@@ -1,6 +1,24 @@
 import { Container, Table } from "react-bootstrap";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const TableUsers = () => {
+
+    const [users, setUsers] = useState([]);
+    const fetchAllUser = async () => {
+        let res = await axios.get("http://localhost:8080/users/all")
+        let data = res && res.data ? res.data : [];
+        setUsers(data);
+    }
+
+    const handleDeleteUser = (id) => {
+
+    }
+
+    useEffect(() => {
+        fetchAllUser();
+    }, []);
+
     return (
         <>
             <hr />
@@ -9,30 +27,26 @@ const TableUsers = () => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Password </th>
                             <th>Username</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td >Larry the Bird</td>
-                            <td >Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {users && users.length > 0 && users.map((user, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.password}</td>
+                                    <td>{user.username}</td>
+                                    <td>
+                                        <button className="btn">Update</button>
+                                        <button className="btn btn-danger" onClick={handleDeleteUser(user.id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </Table>
             </Container>
