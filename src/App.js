@@ -3,6 +3,8 @@ import './App.css';
 import { connect } from 'react-redux';
 import { increaseCounter, decreaseCounter } from './action/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -15,6 +17,17 @@ function App(props) {
     //props.increaseCounter(); // using mapDispatchToProps Class Component
     dispatch(increaseCounter()); // using useDispatch Hook
   }
+
+  const fetchAllUser = async () => {
+    const res = await axios.get("http://localhost:8080/users/all")
+    const data = res && res.data ? res.data : [];
+    console.log("Check data axios: ", data);
+  }
+
+  useEffect(() => {
+    fetchAllUser();
+
+  }, []);
 
   return (
     <div className="App">
