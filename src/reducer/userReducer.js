@@ -4,6 +4,9 @@ import { FETCH_USER_ERROR, FETCH_USER_REQUEST, FETCH_USER_SUCCESS } from '../act
 const INITIAL_STATE = {
 
     listUsers: [],
+    isLoading: false,
+    isError: false
+
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +18,9 @@ const reducer = (state = INITIAL_STATE, action) => {
 
             return {
 
-                ...state
+                ...state,
+                isLoading: true,
+                isError: false
 
             };
 
@@ -24,7 +29,10 @@ const reducer = (state = INITIAL_STATE, action) => {
 
             return {
 
-                ...state, listUsers: action.payload,
+                ...state,
+                listUsers: action.payload,
+                isLoading: false,
+                isError: false
 
             };
         case FETCH_USER_ERROR:
@@ -32,7 +40,9 @@ const reducer = (state = INITIAL_STATE, action) => {
 
             return {
 
-                ...state
+                ...state,
+                isLoading: false,
+                isError: true
 
             };
 
