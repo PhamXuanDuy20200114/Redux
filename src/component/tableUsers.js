@@ -2,6 +2,7 @@ import { Container, Table } from "react-bootstrap";
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUsers } from '../action/actions';
+import { deleteUserRedux } from "../action/actions";
 
 const TableUsers = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,8 @@ const TableUsers = () => {
     const isError = useSelector(state => state.user.isError);
 
     const handleDeleteUser = (id) => {
-
+        dispatch(deleteUserRedux(id));
+        dispatch(fetchAllUsers());
     }
 
     // const fetchAllUser = async () => {
@@ -60,7 +62,7 @@ const TableUsers = () => {
                                                     <td>{user.username}</td>
                                                     <td>
                                                         <button className="btn">Update</button>
-                                                        <button className="btn btn-danger" onClick={handleDeleteUser(user.id)}>Delete</button>
+                                                        <button className="btn btn-danger" onClick={() => handleDeleteUser(user.id)}>Delete</button>
                                                     </td>
                                                 </tr>
                                             )

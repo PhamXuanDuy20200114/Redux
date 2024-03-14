@@ -98,13 +98,15 @@ export const createUserError = () => {
 }
 
 //Delete User
-export const deleteUserRedux = (email, password, userName) => {
+export const deleteUserRedux = (id) => {
     return async (dispatch, getState) => {
         dispatch(deleteUserRequest());
         try {
-            let res = await axios.post("http://localhost:8080/users/delete", [email, password, userName])
-            let data = res && res.data ? res.data : [];
-            dispatch(deleteUserSuccess(data));
+            let res = await axios.post(`http://localhost:8080/users/delete/${id}`)
+            if (res && res.data.errCode === 0) {
+                dispatch(createUserSuccess());
+                dispatch(fetchAllUsers());
+            }
         } catch (error) {
             console.log(error);
             dispatch(deleteUserError());
